@@ -1,0 +1,24 @@
+{
+  "name": "svg-draw",
+  "version": "1.0.0",
+  "description": "svg canvas to draw and edit shapes",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-debug": "^2.0.1",
+    "gulp-gzip": "^1.1.0",
+    "gulp-inject": "^1.2.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-rimraf": "^0.1.1",
+    "gulp-sourcemaps": "^1.5.1",
+    "gulp-tslint": "^1.4.4",
+    "gulp-typescript": "^2.5.0",
+    "gulp-uglify": "^1.2.0"
+  }
+}
