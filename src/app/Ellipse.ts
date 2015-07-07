@@ -18,6 +18,16 @@
             this.shape.attr("rx", width);
             this.shape.attr("ry", height);
         }
+        
+        save(): Object {
+            var baseObj = super.save();
+            return $.extend(baseObj, {
+                rx: this.shape.attr('rx'),
+                ry: this.shape.attr('ry'),
+                cx: this.shape.attr('cx'),
+                cy: this.shape.attr('cy')
+            })
+        }
 
     }
 }

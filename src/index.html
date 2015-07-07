@@ -138,7 +138,7 @@
 
     <script src="lib/jquery-2.1.1.min.js"></script>
     <script src="lib/raphael-min.js"></script>
-    <script src="../dist/svg-draw.min.js"></script>
+    <script src="../dist/svg-draw.js"></script>
 
     <script type="text/javascript">
         function setMode(mode) {
@@ -227,8 +227,10 @@
         }
 
         function save() {
-            $("#data").val(encode(jQuery.map(editor.shapes, dumpshape)))
-            $("#dialog").slideDown()
+            // $("#data").val(encode(jQuery.map(editor.shapes, dumpshape)))
+            // $("#dialog").slideDown()
+            
+            console.log(editor.load());
 
             //for(var i = 0; i < editor.shapes.length; i++){
             //  dumpshape(editor.shapes[i])

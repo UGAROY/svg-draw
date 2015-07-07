@@ -9,6 +9,5 @@
 
             this.registerDragShapeEvent();
         }
-
     }
 }

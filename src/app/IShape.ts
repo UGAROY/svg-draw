@@ -7,5 +7,6 @@
         showTracker(): void;
         hideTracker(): void;
         postCreate(): void;
+        save(): Object;
     }
 }

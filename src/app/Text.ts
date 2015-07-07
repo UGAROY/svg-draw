@@ -15,5 +15,15 @@
             }
             this.shape.attr("font-size", Math.sqrt((height * height) + (width * width)));
         }
+        
+        save(): Object {
+            var baseObj = super.save();
+            return $.extend(baseObj, {
+              font: this.shape.attr('font'),
+              'font-family': this.shape.attr('font-family'),
+              'font-size': this.shape.attr('font-size'),
+              text: this.shape.attr('text')
+            })
+        }
     }
 }

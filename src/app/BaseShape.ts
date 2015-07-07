@@ -32,13 +32,6 @@
                     if (this.editor.mode !== "select") {
                         return;
                     }
-                    if (!this.trackerSet) {
-                        // Not sure why, but occasionally, the tracker is not getting created
-                        // Definitely needs to revisit this. TODO:
-                        // One guess is that the mouse up event is not fired off correctly 
-                        // If the mouse is clicked too fast
-                        this.addTracker();
-                    }
                     this.editor.unSelectAll();
                     this.showTracker();
                     this.editor.currentShape = this;
@@ -47,13 +40,14 @@
         }
 
         addTracker(): void {
-            var box = this.shape.getBBox();
+            var box = this.shape.getBBox(true);
             this.trackerSet = this.paper.set();
             this.trackerSet.push(
                 this.paper.rect(box.x - this.offset, box.y - this.offset,
                     box.width + 2 * this.offset, box.height + 2 * this.offset),
                 this.paper.circle((box.x + box.x2) / 2, box.y - this.offset * 3, 5)
                 );
+            this.syncTracker();
             this.trackerSet[1].attr("fill", "#FFFFFF");
             this.trackerSet.attr("stroke-dasharray", "-");
 
@@ -67,7 +61,7 @@
                     x = event.clientX - position[0], y = event.clientY - position[1], // the x, y come with the arguments don't work well with the offset
                     rad = Math.atan2(y - this.originY, x - this.originX),
                     deg = ((rad * (180 / Math.PI) + 90) % 360 + 360) % 360;
-;               this.shape.transform(this.currentTransformation);
+                this.shape.transform(this.currentTransformation);
                 this.shape.transform(Raphael.format("...R{0},{1},{2}", deg - this.currentRotaion, this.originX, this.originY));
                 this.syncTracker();
             }, (): any => {
@@ -82,6 +76,7 @@
 
             this.trackerSet.hide();
         }
+        
         resize(width: number, height: number): void {
             if (width < 0 || height < 0) {
                 return;
@@ -89,17 +84,21 @@
             this.shape.attr("width", width);
             this.shape.attr("height", height);
         }
+        
         postCreate(): void {
             var box = this.shape.getBBox();
             if (box.width === 0 || box.height === 0) {
                 this.shape.remove();
             } else {
+                this.editor.shapes.push(this);
                 this.addTracker();
             }
         }
+        
         remove(): void {
             this.shape.remove();
         }
+        
         showTracker(): void {
             this.trackerSet.show();
 
@@ -107,11 +106,27 @@
             this.trackerSet.toFront();
             this.shape.toFront();
         }
+        
         hideTracker(): void {
             this.trackerSet.hide();
         }
+        
         syncTracker(): void {
             this.trackerSet.transform(this.shape.transform());
+        }
+        
+        save(): Object {
+            return {
+              type: this.shape['type'],
+              x: this.shape.attr('x'),
+              y: this.shape.attr('y'),
+              width: this.shape.attr('width'),
+              height: this.shape.attr('height'),
+              stroke: this.shape.attr('stroke') === 0 ? 'none': this.shape.attr('stroke'),
+              'stroke-width': this.shape.attr('stroke-width'),
+              fill: this.shape.attr('fill'),
+              transform: this.shape.transform().toString()
+            };
         }
 
     }

@@ -58,12 +58,31 @@ module VectorEditor {
         
         delete(): void {
             if (this.currentShape && this.currentShape.trackerSet) {
+                this.shapes.splice(this.shapes.indexOf(this.currentShape), 1);
+                this.currentShape.trackerSet.remove();
                 this.currentShape.remove();
             }
         }
         
         clear(): void {
             this.paper.clear();
+        }
+        
+        load(jsonStr: string, xOffset: number = 0, yOffset: number = 0): void {
+            var shapeObjs = JSON.parse(jsonStr);
+            shapeObjs.forEach((shapeObj) => {
+                var shape = createShape(this, 0, 0, shapeObj.type, shapeObj);
+                shape.shape.transform(Raphael.format("...T{0},{1}", xOffset, yOffset))
+                shape.postCreate();
+            })
+        }
+        
+        serialize(): string {
+            var shapeObjects = [];
+            this.shapes.forEach(function(shape) {
+                shapeObjects.push(shape.save());
+            });
+            return JSON.stringify(shapeObjects);
         }
 
         setMode(mode): void {
@@ -104,13 +123,14 @@ module VectorEditor {
                     this.unSelectAll();
                     return;
                 }
+            } else if (this.mode === "delelte") {
+                // Place holder. No doing anything at this moment  
             } else {
                 if (this.drawing) {
                     return;
                 }
                 this.drawing = true;
                 var shape = createShape(this, x, y, this.mode, this.prop);
-                this.shapes.push(shape);
                 this.currentShape = shape;
                 // Cache the mouse down position
                 this.onHitXy = [x, y];
@@ -118,7 +138,6 @@ module VectorEditor {
         }
 
         private onMouseMove(event: JQueryEventObject): void {
-            event.preventDefault();
             if (!this.drawing  || !this.currentShape) {
                 return;
             }
@@ -129,16 +148,14 @@ module VectorEditor {
         }
 
         private onMouseUp(event: JQueryEventObject): void {
-            event.preventDefault();
-            if (this.mode === "select" || this.mode === "delete") {
-
-            } else {
-                this.currentShape.postCreate();
-                this.currentShape = null;
-                this.drawing = false;
+            // The mouse up event is sometimes not firing off correctly
+            // TODO: revisit
+            if (!this.drawing  || !this.currentShape) {
+                return;
             }
-            
+            this.currentShape.postCreate();
+            this.currentShape = null;
+            this.drawing = false;
         }
-
     }
 }
