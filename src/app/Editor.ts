@@ -33,7 +33,7 @@ module VectorEditor {
             this.prop = {
                 "strokeWidth": 1,
                 "stroke": "#000000",
-                "fill": "#000000",
+                "fill": "#FFFFFF",
                 "stroke-opacity": 1,
                 "fill-opacity": 1,
                 "text": "text"
