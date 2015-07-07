@@ -1,9 +1,9 @@
 # svg-draw
 A lightwweight library to add svg drawing overlay on elements.
 
-A live demo can be found [here](http://ugaroy.github.io/examples/svg-draw/).
+Different from existing "giant" svg editing libraries, its main purpose is to add "marks" on dom elements. We can have multiple canvases within one page.
 
-Different from svg editing library, its main purpose is to add "marks" on dom elements. We can have multiple canvases within one page.
+A live demo can be found [here](http://ugaroy.github.io/examples/svg-draw/).
 
 The basic usage is:
 ```
