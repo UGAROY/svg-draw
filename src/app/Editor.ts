@@ -76,6 +76,7 @@ module VectorEditor {
         }
 
         private onMouseDown(event: JQueryEventObject): void {
+            event.preventDefault();
             var position = getRelativePositionToWindow(this.container),
                 x = event.clientX - position[0],
                 y = event.clientY - position[1];
@@ -92,12 +93,11 @@ module VectorEditor {
                 this.onHitXy = [x, y];
                 this.startMouseEvent = true;
             }
-
-
         }
 
         private onMouseMove(event: JQueryEventObject): void {
-            if (!this.startMouseEvent) {
+            event.preventDefault();
+            if (!this.startMouseEvent  || !this.currentShape) {
                 return;
             }
             if (this.mode === "select") {
@@ -111,6 +111,7 @@ module VectorEditor {
         }
 
         private onMouseUp(event: JQueryEventObject): void {
+            event.preventDefault();
             if (this.mode === "select" || this.mode === "delete") {
 
             } else {

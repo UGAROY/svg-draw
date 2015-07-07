@@ -56,16 +56,20 @@
             this.trackerSet[1].mouseout(function () { this.attr("fill", "white") });
 
             // Add rotate event listeners to rotat tracker
-            this.trackerSet[1].drag((dx: number, dy: number, x: number, y: number): any => {
-                var rad = Math.atan2(y - this.originY, x - this.originX),
+            this.trackerSet[1].drag((dx: number, dy: number, x: number, y: number, event: DragEvent): any => {
+                var position = getRelativePositionToWindow(this.editor.container),
+                    x = event.clientX - position[0], y = event.clientY - position[1], // the x, y come with the arguments don't work well with the offset
+                    rad = Math.atan2(y - this.originY, x - this.originX),
                     deg = ((rad * (180 / Math.PI) + 90) % 360 + 360) % 360;
-                this.shape.transform(this.currentTransformation);
+                console.log("degree", deg, this.currentRotaion)
+;                this.shape.transform(this.currentTransformation);
                 this.shape.transform(Raphael.format("...R{0},{1},{2}", deg - this.currentRotaion, this.originX, this.originY));
                 this.syncTracker();
             }, (): any => {
-                    var box = this.shape.getBBox();
+                    var box = this.shape.getBBox(), containerOffset = getRelativePositionToWindow(this.editor.container);
+                    console.log(containerOffset);
                     this.originX = (box.x + box.x2) / 2;
-                    this.originY = (box.y + box.y2) / 2;
+                    this.originY = (box.y + box.y2) / 2; 
                     this.currentRotaion = this.shape.matrix.split().rotate;
                     this.currentTransformation = this.shape.transform();
                 }, (): any => {

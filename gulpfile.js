@@ -47,11 +47,7 @@ gulp.task('compile-ts', function () {
 
     var tsResult = gulp.src(sourceTsFiles)
                        .pipe(sourcemaps.init())
-                       .pipe(tsc({
-                           target: 'ES5',
-                           declarationFiles: false,
-                           noExternalResolve: true
-                       }));
+                       .pipe(tsc(config.tscOption));
 
         tsResult.dts.pipe(gulp.dest(config.tsOutputPath));
         return tsResult.js
@@ -82,13 +78,13 @@ gulp.task('scripts', function() {
         .pipe(gulp.dest('dist'))
         .pipe(rename('svg-draw.min.js'))
         .pipe(uglify())
-        .pipe(gzip())
+        //.pipe(gzip())
         .pipe(gulp.dest('dist'));
 });
 
 
 gulp.task('watch', function() {
-    gulp.watch([config.allTypeScript], ['ts-lint', 'compile-ts', 'gen-ts-refs']);
+    gulp.watch([config.allTypeScript], ['compile-ts', 'gen-ts-refs', 'scripts']);
 });
 
-gulp.task('default', ['ts-lint', 'compile-ts', 'gen-ts-refs', 'scripts', 'watch']);
+gulp.task('default', ['compile-ts', 'gen-ts-refs', 'scripts', 'watch']);
