@@ -32,10 +32,16 @@
                     if (this.editor.mode !== "select") {
                         return;
                     }
-                    // TODO: here we have to call a function in the parent container
-                    // Figure out a better way to do this
+                    if (!this.trackerSet) {
+                        // Not sure why, but occasionally, the tracker is not getting created
+                        // Definitely needs to revisit this. TODO:
+                        // One guess is that the mouse up event is not fired off correctly 
+                        // If the mouse is clicked too fast
+                        this.addTracker();
+                    }
                     this.editor.unSelectAll();
                     this.showTracker();
+                    this.editor.currentShape = this;
                     this.currentTransformation = this.shape.transform();
                 }, (): any => { });
         }
@@ -61,13 +67,11 @@
                     x = event.clientX - position[0], y = event.clientY - position[1], // the x, y come with the arguments don't work well with the offset
                     rad = Math.atan2(y - this.originY, x - this.originX),
                     deg = ((rad * (180 / Math.PI) + 90) % 360 + 360) % 360;
-                console.log("degree", deg, this.currentRotaion)
-;                this.shape.transform(this.currentTransformation);
+;               this.shape.transform(this.currentTransformation);
                 this.shape.transform(Raphael.format("...R{0},{1},{2}", deg - this.currentRotaion, this.originX, this.originY));
                 this.syncTracker();
             }, (): any => {
                     var box = this.shape.getBBox(), containerOffset = getRelativePositionToWindow(this.editor.container);
-                    console.log(containerOffset);
                     this.originX = (box.x + box.x2) / 2;
                     this.originY = (box.y + box.y2) / 2; 
                     this.currentRotaion = this.shape.matrix.split().rotate;

@@ -20,7 +20,7 @@ module VectorEditor {
         action: string;
         shapes: IShape[];
 
-        startMouseEvent: boolean;
+        drawing: boolean;
         onHitXy: number[];
 
         currentShape: IShape;
@@ -40,12 +40,30 @@ module VectorEditor {
             }
             
             this.mode = "select";
-            this.action = "";
 
             this.shapes = [];
             this.onHitXy = [0, 0];
 
             this.registerMouseEvents();
+        }
+        
+        // Set shape properties
+        set(attribute, value): void {
+            this.prop[attribute] = value;
+            // if there is a selected shape, set the attribute
+            if (this.currentShape && this.currentShape.trackerSet) {
+                this.currentShape.shape.attr(attribute, value);
+            }
+        }
+        
+        delete(): void {
+            if (this.currentShape && this.currentShape.trackerSet) {
+                this.currentShape.remove();
+            }
+        }
+        
+        clear(): void {
+            this.paper.clear();
         }
 
         setMode(mode): void {
@@ -60,6 +78,7 @@ module VectorEditor {
             this.shapes.forEach((shape) => {
                 shape.hideTracker();
             });
+            this.currentShape = null;
         }
 
         // Register Mouse Events
@@ -86,28 +105,27 @@ module VectorEditor {
                     return;
                 }
             } else {
+                if (this.drawing) {
+                    return;
+                }
+                this.drawing = true;
                 var shape = createShape(this, x, y, this.mode, this.prop);
                 this.shapes.push(shape);
                 this.currentShape = shape;
                 // Cache the mouse down position
                 this.onHitXy = [x, y];
-                this.startMouseEvent = true;
             }
         }
 
         private onMouseMove(event: JQueryEventObject): void {
             event.preventDefault();
-            if (!this.startMouseEvent  || !this.currentShape) {
+            if (!this.drawing  || !this.currentShape) {
                 return;
             }
-            if (this.mode === "select") {
-
-            } else {
-                var position = getRelativePositionToWindow(this.container),
-                    x = event.clientX - position[0], y = event.clientY - position[1],
-                    shape = this.currentShape;
-                shape.resize(x - this.onHitXy[0], y - this.onHitXy[1]);
-            }
+            var position = getRelativePositionToWindow(this.container),
+                x = event.clientX - position[0], y = event.clientY - position[1],
+                shape = this.currentShape;
+            shape.resize(x - this.onHitXy[0], y - this.onHitXy[1]);
         }
 
         private onMouseUp(event: JQueryEventObject): void {
@@ -117,7 +135,7 @@ module VectorEditor {
             } else {
                 this.currentShape.postCreate();
                 this.currentShape = null;
-                this.startMouseEvent = false;
+                this.drawing = false;
             }
             
         }
