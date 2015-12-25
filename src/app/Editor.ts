@@ -31,11 +31,11 @@ module VectorEditor {
             this.paper = Raphael(element, $(element).width(), $(element).height());
 
             this.prop = {
-                "strokeWidth": 1,
+                "stroke-width": 2,
                 "stroke": "#000000",
-                "fill": "#FFFFFF",
+                "fill": "#000000",
                 "stroke-opacity": 1,
-                "fill-opacity": 1,
+                "fill-opacity": 0,
                 "text": "text"
             }
             
@@ -123,7 +123,7 @@ module VectorEditor {
                     this.unSelectAll();
                     return;
                 }
-            } else if (this.mode === "delelte") {
+            } else if (this.mode === "delete") {
                 // Place holder. No doing anything at this moment  
             } else {
                 if (this.drawing) {

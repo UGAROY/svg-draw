@@ -6,9 +6,11 @@ var GulpConfig = (function () {
         this.source = './src/';
         this.sourceApp = this.source + 'app/';
 
-        this.tsOutputPath = this.source + '/js';
-        this.allJavaScript = [this.source + '/js/**/*.js'];
+        this.tsOutputPath = this.source + 'js/';
         this.allTypeScript = this.sourceApp + '/**/*.ts';
+        
+        this.distPath = this.source + 'dist/';
+        this.demoPath = this.source + 'demo/';
         
         this.tscOption = {
             target: 'ES5',
@@ -22,4 +24,5 @@ var GulpConfig = (function () {
     }
     return GulpConfig;
 })();
+
 module.exports = GulpConfig;

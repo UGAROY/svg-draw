@@ -1,0 +1,57 @@
+#wrapper {
+    width: 960px;
+    margin: 20px auto;
+}
+
+#toolbar {
+    float: left;
+    padding: 60px 20px;
+}
+
+@keyframes sway {
+    0% {
+        transform: translateX(0%) rotate(0deg);
+    }
+    33.3% {
+        transform: translateX(15%) rotate(-3deg);
+    }
+    100% {
+        transform: translateX(-15%) rotate(3deg);
+    }
+}
+
+
+#canvas {
+    position: relative;
+    width: 800px;
+    height: 480px;
+    margin-top: 50px;
+    margin-left: 120px;
+    background-color: white;
+    box-shadow: 0 0 15px #888888;
+    
+    animation: sway 2s 2;
+    animation-timing-function: ease;
+    animation-direction: alternate;
+}
+
+#canvas:before,
+#canvas:after {
+    content: "";
+    display: block;
+    height: 150px;
+    bottom: 90%;
+    width: 2px;
+    background: darkred;
+    position: absolute;   
+}
+
+#canvas:before {
+    left: 10%;
+    transform: rotate(15deg);
+}
+
+#canvas:after {
+    right: 10%;
+    transform: rotate(-15deg);
+}

@@ -19,7 +19,7 @@
             this.offset = 5;
         }
 
-        registerDragShapeEvent(): void {
+         registerDragShapeEvent(): void {
             // Add drag event listeners to shape
             this.shape.drag((dx: number, dy: number): any => {
                 if (this.editor.mode !== "select") {
