@@ -45,10 +45,12 @@ $(document).ready(function () {
 
     function smoothClearCanvas() {
         $('#canvas svg').animate({
-            opacity: 0
-        }, 1000, function () {
+            opacity: 0,
+            top: '100px'
+        }, 1500, function () {
             editor.paper.clear();
             svgCanvas.css('opacity', 1);
+            svgCanvas.css('top', 0);
             setMode('path');
         });
     }
