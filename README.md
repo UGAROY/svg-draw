@@ -1,12 +1,12 @@
 # svg-draw
-A lightwweight library to add svg drawing overlay on elements.
+A lightwweight library to add svg drawing overlay on elements. A live demo can be found [here](http://ugaroy.github.io/examples/svg-draw/).
 
 # motivation
 There are quite a few existing "giant" svg editing libraries, such as [svg-edit](https://github.com/johan/svg-edit) or [method-draw](https://github.com/duopixel/Method-Draw). They works like standalone softwares, including all necessary functionalities like `create`, `edit`, `import` or `export` svg shapes.
 
 But sometimes we just need a sketchpad to doodle around or add some "marks" on top of specific web pages.  One common solution is to use the canvas element in html5. But one major fallback is that `canvas` does not remember the "history", which means once the shapes are drawn, we are not able to edit them any more. 
 
-This project uses "svg" to solve this problem. The users can draw "line", "path", "rectangle" and "circle" on top of the web pages.  All the shapes added can be dragged and rotated. A live demo can be found [here](http://ugaroy.github.io/examples/svg-draw/).
+This project uses "svg" to solve this problem. The users can draw "line", "path", "rectangle" and "circle" on top of the web pages.  All the shapes added can be dragged and rotated. 
 
 Another good thing about this library is that we can have multiple "canvases" on the webpages, on top of different `div` containers.
 

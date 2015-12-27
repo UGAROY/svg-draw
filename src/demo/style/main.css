@@ -29,6 +29,7 @@
     margin-left: 120px;
     background-color: white;
     box-shadow: 0 0 15px #888888;
+    border: 5px solid silver;
     
     animation: sway 2s 2;
     animation-timing-function: ease;
