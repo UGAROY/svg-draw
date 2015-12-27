@@ -55,3 +55,7 @@
     right: 10%;
     transform: rotate(-15deg);
 }
+
+.pen {
+    cursor: url('../images/pencil.ico'), auto;
+}

@@ -1,6 +1,8 @@
 // Some customized code specified for this demo
 $(document).ready(function () {
-    var editor = new VectorEditor.Editor(document.getElementById("canvas"));
+    var editor = new VectorEditor.Editor(document.getElementById("canvas")),
+        canvas = $('#canvas'),
+        svgCanvas = $('#canvas svg');
     setMode("path");
 
     // Load a splash page
@@ -16,17 +18,26 @@ $(document).ready(function () {
         setMode(mode);
     });
 
-    function loadShape(val) {
-        editor.load($('#shapeData').val());
-    }
-
     function setMode(mode) {
-        if (mode === "delete") {
-            editor.paper.clear();
+        if (mode === 'delete') {
+            $('#canvas svg').animate({
+                opacity: 0
+            }, 1000, function() {
+                editor.paper.clear();
+                svgCanvas.css('opacity', 1);
+                setMode('path');
+            });
         }
-        if (mode === "text") {
-            editor.prop.text = prompt("Text:", editor.prop.text)
+        if (mode === 'text') {
+            editor.prop.text = prompt('Text:', editor.prop.text)
         }
         editor.setMode(mode);
+        
+        // set cursor
+        if (mode === 'select' || mode === 'delete') {
+            canvas.removeClass('pen');   
+        } else {
+            canvas.addClass('pen');
+        }
     }
 });
